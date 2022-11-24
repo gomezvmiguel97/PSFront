@@ -1,0 +1,82 @@
+
+<div class="row justify-content-md-center">
+	<div *ngIf="cargando" class="text-left">
+	  <div class="spinner-grow spinner-grow-sm text-warning" role="status"></div>
+	  <div class="spinner-grow spinner-grow-sm text-danger" role="status"></div>
+	  <div class="spinner-grow spinner-grow-sm" role="status" style="color: darkblue"></div>
+	  <!--span class="align-top">Cargando</span-->
+	</div>
+	<div *ngIf="mensajeError" class="alert alert-dark" role="alert">{{mensajeError}}</div>
+	<form [formGroup]="userDataForm" *ngIf="!mensajeError && !cargando">
+		<!--div class="form-row">
+			<div class="form-group col-md-4">
+				<label for="nombre">Nombre</label>
+				<input type="text" class="form-control" formControlName="nombre" readonly>
+			</div>
+			<div class="form-group col-md-4">
+				<label for="apPaterno">Ap. Pat.</label>
+				<input type="text" class="form-control" formControlName="apPaterno" readonly>
+			</div>
+			<div class="form-group col-md-4">
+				<label for="apMaterno">Ap. Mat.</label>
+				<input type="text" class="form-control" formControlName="apMaterno" readonly>
+			</div>
+			<div class="form-group col-md-4">
+				<label for="rfc">RFC</label>
+				<input type="text" class="form-control" formControlName="rfc" readonly>
+			</div>
+		</div-->
+		<div class="container">
+		    <div class="card flex-row flex-wrap">
+		        <div class="card-header border-0">
+		        	<div *ngIf="imagenDefault">
+		        		<img src="../../assets/images/imagen_default.png" alt="imagen_default">
+		        	</div>
+		            <div *ngIf="!imagenDefault" class="container">
+				    	<div id="gallery">
+				      		<ul class="pictures">
+				      			<li *ngFor="let image of idImages; let last = last">
+				      				<img [src]="sanitize(image.archivo)" alt="prueba" (click)="initalizeViewer() ">
+				      			</li>
+				        		<!--li><img src="../../assets/images/bg_header_menu.png" alt="prueba"></li>
+				        		<li><img src="../../assets/images/ci_banco_header.png" alt="prueba"></li-->
+				        	</ul>
+				        </div>
+				    </div>
+		        </div>
+		        <div class="flex-column">
+			        <div class="row card-body">
+				        <div class="card-block px-2">
+				            <h4 class="card-title">Nombre</h4>
+				            <p class="card-text">{{userDataForm.get('nombre').value}}</p>
+				        </div>
+				        <div class="card-block px-2">
+				            <h4 class="card-title">Ap. Paterno</h4>
+				            <p class="card-text">{{userDataForm.get('apellidoPat').value}}</p>
+				        </div>
+				        <div class="card-block px-2">
+				            <h4 class="card-title">Ap. Materno</h4>
+				            <p class="card-text">{{userDataForm.get('apellidoMat').value}}</p>
+				        </div>
+			    	</div>
+			    	<div class = "row card-body">
+				        <div class="card-block px-2">
+				            <h4 class="card-title">RFC</h4>
+				            <p class="card-text">{{userDataForm.get('rfc').value}}</p>
+				        </div>
+				        <div class="card-block px-2">
+				            <h4 class="card-title">CURP</h4>
+				            <p class="card-text">{{userDataForm.get('curp').value}}</p>
+				        </div>
+			    	</div>
+			    </div>
+		        <div class="w-100"></div>
+		        <div class="card-footer w-100 text-muted">
+		            Clic en la imagen para mejor visualización.
+		        </div>
+		    </div>
+		</div>
+
+	</form>
+
+</div>

@@ -1,0 +1,50 @@
+@import url("glyphicon.css");
+@import '~viewerjs/dist/viewer.css';
+
+.form-control:focus {
+	  border-color: #28a745 !important;
+	  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(40, 167, 69, 0.6) !important;
+}
+
+.form-check:checked {
+	  border-color: #28a745 !important;
+	  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(40, 167, 69, 0.6) !important;
+}
+
+.pictures {
+      list-style: none !important;
+      margin: 0 !important;
+      max-width: 30rem !important;
+      padding: 0 !important;
+    }
+
+.pictures > li {
+	  border: 1px solid transparent !important;
+	  float: none !important;
+	  height: calc(100% / 2) !important;
+	  margin: 0 -1px -1px 0 !important;
+	  overflow: hidden !important;
+	  width: calc(100% / 2) !important;
+}
+
+.pictures > li > img {
+	  cursor: zoom-in !important;
+	  width: 100% !important;
+}
+
+/* This is the checked state */
+.custom-radio .custom-control-input:checked{
+    background-color: greenyellow;  /* green */
+    border-radius: 50%;
+}
+
+/* active state i.e. displayed while the mouse is being pressed down */
+.custom-radio .custom-control-input:active {
+    color: #fff;
+    background-color: #ff0000; /* red */
+}
+    
+/* the shadow; displayed while the element is in focus */
+.custom-radio .custom-control-input:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(255, 123, 255, 0.25); /* pink, 25% opacity */
+}

@@ -1,0 +1,112 @@
+<div class="row justify-content-md-center">
+	<form [formGroup]="searchForm" >
+
+		<div class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value=1 (change)="onRadioChange($event.target.value)">
+			<label class="form-check-label" for="inlineRadio1">CURP</label>
+		</div>
+		<div class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value=2 (change)="onRadioChange($event.target.value)">
+			<label class="form-check-label" for="inlineRadio2">RFC</label>
+		</div>
+		<div class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value=3 (change)="onRadioChange($event.target.value)">
+			<label class="form-check-label" for="inlineRadio3">Número PUC</label>
+		</div>
+
+		<div class="input-group input-group-sm mb-3">
+			<!--div class="input-group-prepend">
+				<span class="input-group-text" id="username_label">{{radioValue}}</span>
+			</div-->
+			<input type="text" class="form-control" formControlName="identificador" id="identificador" autocomplete="off" maxlength="18" *ngIf="radioValue == 1">
+			<input type="text" class="form-control" formControlName="identificador" id="identificador" autocomplete="off" maxlength="13" *ngIf="radioValue == 2">
+			<input type="number" class="form-control" formControlName="identificador" id="identificador" autocomplete="off" *ngIf="radioValue == 3">
+		</div>
+		
+		<div class="form-group">
+			<select class="form-control form-control-sm" aria-label="Operaciones" formControlName="operacion" id="operacion" (change)="validarCurpT24($event.target.value)">
+				<option *ngFor="let operacion of busquedaCatalogoResponse.catalogoOperaciones" [value]="operacion.valor">{{operacion.descripcion}}</option>
+				<!--option value="1">Entrega Tarjeta de Débito</option>
+				<option value="2">Entrega de Chequera</option>
+				<option value="3">Cambio de Cheque</option>
+				<option value="4">Disposición en Ventanilla</option-->
+			</select>
+		</div>
+
+		<!--<div class="row justify-content-md-center" *ngIf="mensaje != 2">
+			<div class="alert-danger" *ngIf="mensaje == 1">
+				<div class="container-error-message">
+					CURP INVALIDA
+				</div>
+			</div>
+			<div class="alert-success" *ngIf="mensaje == 0">
+				<div class="container-success-message">
+					CURP VALIDADA
+				</div>
+			</div>
+		</div>-->
+
+		<!--div class="row justify-content-md-center">
+			<button class="btn btn-success" [disabled]="searchForm.invalid" (click)="search()">Buscar</button>
+		</div-->
+
+		<div class="row justify-content-md-center">
+			<div>
+				<button type="button" class="btn btn-success" data-toggle="modal" data-target="#tomaHuella" [disabled]="searchForm.invalid" (click)="connectDevices()">
+					Capturar huella
+				</button>
+			</div>
+			&nbsp;&nbsp;&nbsp;
+			<div>
+				<button type="button" class="btn btn-success" *ngIf="userdataObs" (click)="limpiar()">
+					Limpiar
+				</button>
+			</div>
+		</div>
+		<div class="row justify-content-md-center"></div>
+		<div class="row justify-content-md-center" *ngIf="searchForm.controls.identificador.invalid && (searchForm.controls.identificador.touched || searchForm.controls.identificador.dirty)">
+			<div class="row justify-content-md-center"></div>
+			<div *ngIf="radioValue == 1">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.identificador.errors?.required">El campo CURP es Obligatorio</span>
+				<span class="alert alert-danger" *ngIf="searchForm.controls.identificador.errors?.minlength">El campo CURP debe contener 18 digitos</span>
+			</div>
+			<div *ngIf="radioValue == 2">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.identificador.errors?.required">El campo RFC es Obligatorio</span>
+				<span class="alert alert-danger" *ngIf="searchForm.controls.identificador.errors?.minlength">El campo RFC debe contener 12 o 13 digitos</span>
+			</div>
+			<div *ngIf="radioValue == 3">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.identificador.errors?.required">El campo Número PUC es Obligatorio</span>
+			</div>
+		</div>
+
+	</form>
+
+	<div class="modal fade" id="tomaHuella" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tomaHuellaLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="tomaHuellaLabel">Coloque el dedo en el lector</h5>
+					<button type="button" class="close" aria-label="Close">
+					<span class="spinner-grow spinner-grow-sm text-success" role="status" aria-hidden="true"></span>
+		  			<span class="sr-only">Loading...</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row justify-content-md-center">
+							<video width="50%" height="50%" loop muted autoplay>
+								<source src="../../assets/images/fingerprint.mp4" type="video/mp4">
+							</video>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal" (click)="cancelWebSocket()" id="cancelar">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<br>
+<app-showuserdata *ngIf="userdataObs" [userdataObs]="userdataObs" [selectOption]="valorOptions" [parametrsOption]="parametersOptions"></app-showuserdata>

@@ -1,0 +1,51 @@
+<div class="wrapper">
+    <nav id="sidebar">
+        <!--div class="sidebar-header headermenu"-->
+        <div style="background-image: url(../assets/images/bg_header_menu.png);padding-left: 20px; padding-top: 5px; padding-bottom: 5px;" class="headermenu">
+            <div class="row align-items-center" >
+                <img src="../assets/images/ci_banco_logo_small.png">
+                <!--label>&nbsp;Portal de Servicios</label-->
+            </div>
+        </div>
+        <ul class="list-unstyled components">
+            <p>{{nombreUsuario}}</p>
+            <li>
+                <a [routerLink]="busqueda_biometrica_route">Autenticar cliente</a>
+            </li>
+            <li>
+                <a [routerLink]="validacion_ine_route">Validar cliente con el INE</a>
+            </li>
+            <!--li>
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Servicio 2</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li><a (click)="dummy()">Sub-Servicio 1</a></li>
+                    <li><a (click)="dummy()">Sub-Servicio 2</a></li>
+                    <li><a (click)="dummy()">Sub-Servicio 3</a></li>
+                </ul>
+            </li>
+            <li>
+                <a (click)="dummy()" >Servicio 4</a>
+            </li-->
+            <!--li>
+                <a href="#">Servicio 5</a>
+            </li-->
+            <!--li>
+                <a (click)="dummy()" >Ayuda</a>
+            </li-->
+        </ul>
+        <div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a (click)="logout()" class="logout">&nbsp; Salir</a>
+                </li>
+            </ul>
+            <!--button type="button" id="exit" class="btn-logout" (click)="logout()">
+                <i class="glyphicon glyphicon-log-out"></i>
+                <span>Salir</span>
+            </button-->
+        </div>
+    </nav>
+    <div id="content" class="col-11">
+        <router-outlet></router-outlet>
+    </div>
+</div>

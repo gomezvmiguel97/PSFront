@@ -1,0 +1,256 @@
+<div class="row justify-content-md-center">
+	<form [formGroup]="searchForm" (submit)="onSubmit($event)">
+
+		<div class="form-group">
+			<div class="input-group mb-3">
+				<select class="form-control form-control-sm" aria-label="Operaciones" formControlName="operacion" id="operacion">
+					<option *ngFor="let operacion of busquedaCatalogoResponse.catalogoOperaciones" [value]="operacion.valor">{{operacion.descripcion}}</option>
+					<!--option value="1">Entrega Tarjeta de Débito</option>
+					<option value="2">Entrega de Chequera</option>
+					<option value="3">Cambio de Cheque</option>
+					<option value="4">Disposición en Ventanilla</option-->
+				</select>
+			</div>
+		</div>
+		<div class="row justify-content-md-center" *ngIf="searchForm.controls.operacion.invalid && (searchForm.controls.operacion.touched || searchForm.controls.operacion.dirty)">
+			<span class="alert alert-danger" *ngIf="searchForm.controls.operacion.errors?.required">
+				El select de Operaciones es obligatorio
+			</span>
+		</div>
+		<div class="row justify-content-md-center">
+			<div>
+				<button type="button" class="btn btn-success" data-toggle="modal" data-target="#escaneoINE" (click)="connectDevicesScan('Front')">
+					Escanear INE Frente
+				</button>
+			</div>
+			&nbsp;&nbsp;&nbsp;
+			<div>
+				<button type="button" class="btn btn-success" data-toggle="modal" data-target="#escaneoINE" (click)="connectDevicesScan('Back')">
+					Escanear INE Reverso
+				</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">CIC</span>
+				</div>
+				<input type="text" class="form-control" formControlName="cic" id="cic" maxlength="9" autocomplete="off">
+			</div>
+			<div class=" column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">OCR</span>
+				</div>
+				<input type="text" class="form-control" formControlName="ocr" id="ocr" maxlength="13" autocomplete="off">
+			</div>
+		</div>
+		<div class="row" *ngIf="(searchForm.controls.cic.invalid && (searchForm.controls.cic.touched || searchForm.controls.cic.dirty)) || (searchForm.controls.ocr.invalid && (searchForm.controls.ocr.touched || searchForm.controls.ocr.dirty))">
+			<div class="column input-group input-group-sm mb-3" *ngIf="searchForm.controls.cic.invalid && (searchForm.controls.cic.touched || searchForm.controls.cic.dirty)">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.cic.errors?.required">El campo CIC es Obligatorio</span>
+				<span class="alert alert-danger" *ngIf="searchForm.controls.cic.errors?.minlength">El campo CIC debe contener 9 digitos</span>
+			</div>
+			<div class="column input-group input-group-sm mb-3" *ngIf="searchForm.controls.ocr.invalid && (searchForm.controls.ocr.touched || searchForm.controls.ocr.dirty)">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.ocr.errors?.required">El campo OCR es Obligatorio</span>
+				<span class="alert alert-danger" *ngIf="searchForm.controls.ocr.errors?.minlength">El campo OCR debe contener 13 digitos</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">Núm. de Emisión</span>
+				</div>
+				<input type="text" class="form-control" formControlName="numeroemision" maxlength="2" id="numeroemision" autocomplete="off">
+			</div>
+			<div class=" column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">Cve. Elector</span>
+				</div>
+				<input type="text" class="form-control" formControlName="claveelector" id="claveelector" maxlength="18" autocomplete="off">
+			</div>
+		</div>
+		<div class="row" *ngIf="(searchForm.controls.numeroemision.invalid && (searchForm.controls.numeroemision.touched || searchForm.controls.numeroemision.dirty)) || (searchForm.controls.claveelector.invalid && (searchForm.controls.claveelector.touched || searchForm.controls.claveelector.dirty))">
+			<div class="column input-group input-group-sm mb-3" *ngIf="searchForm.controls.numeroemision.invalid && (searchForm.controls.numeroemision.touched || searchForm.controls.numeroemision.dirty)">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.numeroemision.errors?.required">El campo  Núm. de Emisión es Obligatorio</span>
+				<span class="alert alert-danger" *ngIf="searchForm.controls.numeroemision.errors?.minlength">El campo Núm. de Emisión debe contener 2 digitos</span>
+			</div>
+			<div class="column input-group input-group-sm mb-3" *ngIf="searchForm.controls.claveelector.invalid && (searchForm.controls.claveelector.touched || searchForm.controls.claveelector.dirty)">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.claveelector.errors?.required">El campo Cve. Elector es Obligatorio</span>
+				<span class="alert alert-danger" *ngIf="searchForm.controls.claveelector.errors?.minlength">El campo Cve. Elector debe contener 18 digitos</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">CURP</span>
+				</div>
+				<input type="text" class="form-control" formControlName="curp" id="curp" maxlength="18" autocomplete="off">
+			</div> 
+			<div class=" column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">Nombre</span>
+				</div>
+				<input type="text" class="form-control" formControlName="nombre" id="nombre" autocomplete="off">
+			</div>
+		</div>
+		<div class="row" *ngIf="(searchForm.controls.curp.invalid && (searchForm.controls.curp.touched || searchForm.controls.curp.dirty)) || (searchForm.controls.nombre.invalid && (searchForm.controls.nombre.touched || searchForm.controls.nombre.dirty))">
+			<div class="column input-group input-group-sm mb-3" *ngIf="searchForm.controls.curp.invalid && (searchForm.controls.curp.touched || searchForm.controls.curp.dirty)">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.curp.errors?.required">El campo  CURP es Obligatorio</span>
+				<span class="alert alert-danger" *ngIf="searchForm.controls.curp.errors?.minlength">El campo CURP debe contener 18 digitos</span>
+			</div>
+			<div class="column input-group input-group-sm mb-3" *ngIf="searchForm.controls.nombre.invalid && (searchForm.controls.nombre.touched || searchForm.controls.nombre.dirty)">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.nombre.errors?.required">El campo Nombre es Obligatorio</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">Ap. Paterno</span>
+				</div>
+				<input type="text" class="form-control" formControlName="apellidopaterno" id="apellidopaterno" autocomplete="off">
+			</div>
+			<div class=" column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">Ap. Materno</span>
+				</div>
+				<input type="text" class="form-control" formControlName="apellidomaterno" id="apellidomaterno" autocomplete="off">
+			</div>
+		</div>
+		<div class="row" *ngIf="(searchForm.controls.apellidopaterno.invalid && (searchForm.controls.apellidopaterno.touched || searchForm.controls.apellidopaterno.dirty)) || (searchForm.controls.apellidomaterno.invalid && (searchForm.controls.apellidomaterno.touched || searchForm.controls.apellidomaterno.dirty))">
+			<div class="column input-group input-group-sm mb-3" *ngIf="searchForm.controls.apellidopaterno.invalid && (searchForm.controls.apellidopaterno.touched || searchForm.controls.apellidopaterno.dirty)">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.apellidopaterno.errors?.required">El campo  Ap. Paterno es Obligatorio</span>
+			</div>
+			<div class="column input-group input-group-sm mb-3" *ngIf="searchForm.controls.apellidomaterno.invalid && (searchForm.controls.apellidomaterno.touched || searchForm.controls.apellidomaterno.dirty)">
+				<span class="alert alert-danger" *ngIf="searchForm.controls.apellidomaterno.errors?.required">El campo Ap. Materno es Obligatorio</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">Año de Emisión</span>
+				</div>
+				<input type="text" class="form-control" formControlName="anioemision" id="anioemision" maxlength="4" autocomplete="off">
+			</div>
+			<div class=" column input-group input-group-sm mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="username_label">Año Registro</span>
+				</div>
+				<input type="text" class="form-control" formControlName="anioregistro" id="anioregistro" maxlength="4" autocomplete="off">
+			</div>
+		</div>
+		<div class="row">
+			<div class="column input-group input-group-sm mb-3">
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" formControlName="dedo" id="indiceizquierdo" value=2>
+					<label class="form-check-label" for="indiceizquierdo">Índice Derecho</label>
+				</div>
+			</div>
+			<div class="column input-group input-group-sm mb-3">
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" formControlName="dedo" id="indicederecho" value=7>
+					<label class="form-check-label" for="indicederecho">Índice Izquierdo</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="row justify-content-md-center" *ngIf="porcentaje>=0">
+			<div class="alert alert-secondary" role="alert">Porcentaje de validación: {{porcentaje}}%</div>
+		</div>
+
+		<div *ngIf="cargando" class="row justify-content-md-center">
+		  <div class="spinner-grow spinner-grow-sm text-warning" role="status"></div>
+		  <div class="spinner-grow spinner-grow-sm text-danger" role="status"></div>
+		  <div class="spinner-grow spinner-grow-sm" role="status" style="color: darkblue"></div>
+		</div>
+
+		<!--div class="row justify-content-md-center" *ngIf="porcentaje>=0">
+			<div *ngIf="porcentaje>=90;then valido else no_valido"></div>
+			<ng-template #valido>
+				<div class="alert alert-success" role="alert">Validación de huella exitosa {{porcentaje}}%</div>
+			</ng-template>
+			<ng-template #no_valido>
+				<div class="alert alert-danger" role="alert">Validación de huella no exitosa {{porcentaje}}%</div>
+			</ng-template>
+		</div
+		<div class="row justify-content-md-center" *ngIf="userdataObs && !cargando">
+			<div *ngIf="validacionGeneral;then valido else no_valido"></div>
+			<ng-template #valido>
+				<div class="alert alert-success" role="alert">{{validacionGeneralMsj}}</div>
+			</ng-template>
+			<ng-template #no_valido>
+				<div class="alert alert-danger" role="alert">{{validacionGeneralMsj}}</div>
+			</ng-template>
+		</div>-->
+
+
+		<br>
+		<div class="row justify-content-md-center">
+			<div>
+				<button type="button" class="btn btn-success" data-toggle="modal" data-target="#tomaHuella" [disabled]="searchForm.invalid" (click)="connectDevices()">
+					Capturar huella
+				</button>
+			</div>
+			&nbsp;&nbsp;&nbsp;
+			<div>
+				<button type="button" class="btn btn-success" *ngIf="userdataObs" (click)="limpiar()">
+					Limpiar
+				</button>
+			</div>
+		</div>
+
+	</form>
+
+	<div class="modal fade" id="tomaHuella" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tomaHuellaLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="tomaHuellaLabel">Coloque el dedo en el lector</h5>
+					<button type="button" class="close" aria-label="Close">
+					<span class="spinner-grow spinner-grow-sm text-success" role="status" aria-hidden="true"></span>
+		  			<span class="sr-only">Loading...</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row justify-content-md-center">
+							<video width="50%" height="50%" loop muted autoplay>
+								<source src="../../assets/images/fingerprint.mp4" type="video/mp4">
+							</video>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal" (click)="cancelWebSocket()" id="cancelar">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="escaneoINE" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="escaneoINELabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="escaneoINELabel">Escaneando</h5>
+					<button type="button" class="close" aria-label="Close">
+					<span class="spinner-grow spinner-grow-sm text-success" role="status" aria-hidden="true"></span>
+		  			<span class="sr-only">Loading...</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row justify-content-md-center">
+							<video width="50%" height="50%" loop muted autoplay>
+								<source src="../../assets/images/scanning.mp4" type="video/mp4">
+							</video>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal" (click)="cancelScanning()" id="cancelarScan">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<br>
