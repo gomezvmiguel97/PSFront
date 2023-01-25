@@ -17,7 +17,12 @@ export class LoginComponent implements OnInit {
 
   	constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService) { }
 
-	  	onSubmit() {
+	  connectDevices() {
+		let puerto = window.sessionStorage.getItem("puerto");
+		console.log('El puerto est: ' + puerto);
+	  }  	
+	
+	onSubmit() {
 		    if (this.loginForm.invalid) {
 		    	return;
 		    }

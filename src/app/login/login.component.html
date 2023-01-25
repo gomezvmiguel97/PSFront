@@ -3,7 +3,7 @@
 		<div class="card card-signin my-3">
 			<div class="card-body">
 				<h2 class="card-title text-center">Portal de Servicios</h2>
-				<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+				<form [formGroup]="loginForm">
 					<div class="input-group input-group-sm mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="username_label">Usuario</span>
@@ -18,7 +18,7 @@
 					</div>
 					<div class="alert alert-danger" *ngIf="(loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched) || loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">Usuario y Password son requeridos</div>
 					<div class="row justify-content-md-center">
-						<button class="btn btn-success" [disabled]="loginForm.invalid">Login</button>
+						<button class="btn btn-success" [disabled]="loginForm.invalid" data-toggle="modal" data-target="#tomaHuella" (click)="connectDevices()">Login</button>
 					</div>
 					<!--<div *ngIf="invalidLogin" class="alert alert-danger">
 						<div>{{mensajeLogin}}</div>
@@ -27,4 +27,31 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="tomaHuella" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tomaHuellaLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="tomaHuellaLabel">Coloque el dedo en el lector</h5>
+					<button type="button" class="close" aria-label="Close">
+					<span class="spinner-grow spinner-grow-sm text-success" role="status" aria-hidden="true"></span>
+		  			<span class="sr-only">Loading...</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row justify-content-md-center">
+							<video width="50%" height="50%" loop muted autoplay>
+								<source src="../../assets/images/fingerprint.mp4" type="video/mp4">
+							</video>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal" id="cancelar">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
